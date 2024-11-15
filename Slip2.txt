@@ -1,0 +1,182 @@
+Slip 2 :
+Q.1) .html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Details</title>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<style>
+table {
+width: 100%;
+border-collapse: collapse;
+margin: 20px 0;
+}
+th, td {
+padding: 8px 12px;
+text-align: left;
+border: 1px solid #ddd;
+}
+th {
+background-color: #f4f4f4;
+}
+
+</style>
+</head>
+<body ng-app="bankApp" ng-controller="bankController">
+
+<h2>Bank Details</h2>
+
+<table>
+<thead>
+<tr>
+<th>Bank Name</th>
+<th>MICR Code</th>
+<th>IFC Code</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="bank in banks">
+<td>{{ bank.name }}</td>
+<td>{{ bank.micrCode }}</td>
+<td>{{ bank.ifcCode }}</td>
+<td>{{ bank.address }}</td>
+</tr>
+
+</tbody>
+</table>
+
+<script>
+// AngularJS application module
+var app = angular.module('bankApp', []);
+
+// Controller for the bank details
+app.controller('bankController', function($scope) {
+$scope.banks = [
+{
+name: 'State Bank of India',
+micrCode: '123456789',
+ifcCode: 'SBI123456',
+address: 'Mumbai, Maharashtra'
+},
+{
+name: 'HDFC Bank',
+micrCode: '987654321',
+ifcCode: 'HDFC987654',
+address: 'New Delhi, Delhi'
+},
+
+{
+name: 'ICICI Bank',
+micrCode: '112233445',
+ifcCode: 'ICICI112233',
+address: 'Chennai, Tamil Nadu'
+},
+{
+name: 'Axis Bank',
+micrCode: '556677889',
+ifcCode: 'AXIS556677',
+address: 'Bangalore, Karnataka'
+}
+];
+});
+</script>
+
+</body>
+</html>
+
+Q2 .ts
+
+app.module.ts:  
+import { BrowserModule } 
+	from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } 
+	from '@angular/common/http';
+import { AppRoutingModule }
+	from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AddInputComponent }
+	from './add-input/add-input.component';
+import { ShowApiComponent }
+	from './show-api/show-api.component';
+
+@NgModule({
+	declarations: [
+		AppComponent,
+		ShowApiComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule
+	],
+	providers: [],
+	bootstrap: [AppComponent]
+})
+export class AppModule { }
+app.component.ts:
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+@Component({
+	selector: 'app-show-api',
+	templateUrl: './show-api.component.html',
+	styleUrls: ['./show-api.component.css']
+})
+export class ShowApiComponent implements OnInit {
+	li: any;
+	lis = [];
+	constructor(private http: HttpClient) {
+
+	}
+	ngOnInit(): void {
+		this.http.get(
+			'http://...com')
+			.subscribe(Response =& gt; {
+
+			// If response comes hideloader() function is called
+			// to hide that loader 
+			if (Response) {
+				hideloader();
+			}
+			console.log(Response)
+			this.li = Response;
+			this.lis = this.li.list;
+		});
+		function hideloader() {
+			document.getElementById('loading').style.display = 'none';
+		}
+	}
+}
+app.component.html:
+<h1>Registered Employees</h1>
+<div class="d-flex justify-content-center">
+	<div class="spinner-border" role="status">
+		<span class="sr-only" id="loading">
+			Loading...
+		</span>
+	</div>
+</div>
+
+<table class="table" id='tab'>
+	<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Position</th>
+			<th scope="col">Office</th>
+			<th scope="col">Salary</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let e of lis;">
+			<td>{{ e.name }}</td>
+			<td>{{ e.position }}</td>
+			<td>{{ e.office }}</td>
+			<td>{{ e.salary }}</td>
+		</tr>
+	</tbody>
+</table>

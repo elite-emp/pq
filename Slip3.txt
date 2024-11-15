@@ -1,0 +1,71 @@
+Slip 3 :
+
+Q.1) .html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AngularJS Game List</title>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="gameApp" ng-init="games = ['Soccer', 'Basketball', 'Tennis', 'Cricket',
+'Football']">
+
+<div ng-controller="gameController">
+
+<!-- Displaying the List of Games using ng-bind -->
+<h3 ng-bind="'Games List'"></h3>
+
+<!-- Button to trigger the display of games -->
+<button ng-click="showGames = !showGames">
+Click to Display Games
+
+</button>
+
+<!-- Display the games list when the button is clicked -->
+<ul ng-show="showGames">
+<li ng-repeat="game in games">{{ game }}</li>
+</ul>
+
+</div>
+
+<script>
+// Define AngularJS Application and Controller
+var app = angular.module('gameApp', []);
+app.controller('gameController', function($scope) {
+// ng-init is used in the HTML itself to initialize the games array
+// ng-click logic is used to toggle the showGames boolean value
+$scope.showGames = false; // This will hide the list initially
+});
+</script>
+
+</body>
+</html>
+
+Q.2) .js
+// Array of companies with id and workforce properties
+const companies = [
+{ id: 1, name: 'Company A', workforce: 25 },
+{ id: 2, name: 'Company B', workforce: 50 },
+{ id: 3, name: 'Company C', workforce: 100 },
+{ id: 4, name: 'Company D', workforce: 10 },
+];
+// Function to find the company by id and workforce greater than 30
+function findCompanyByIdAndWorkforce(id) {
+// Find the company with a specific id and workforce greater than 30
+const company = companies.find(company => company.id === id &&
+company.workforce > 30);
+return company;
+}
+// Example: Find company with id 2 and workforce greater than 30
+const company = findCompanyByIdAndWorkforce(2);
+// Display the result
+if (company) {
+console.log(`Found company: ${company.name} with workforce:
+${company.workforce}`);
+} else {
+console.log('No company found with the given conditions');
+}

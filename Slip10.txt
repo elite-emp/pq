@@ -1,0 +1,125 @@
+Slip 10 :
+
+Q.1) .js
+
+// Importing the http module
+const http = require('http');
+
+// Define the hostname and port for the server
+const hostname = '127.0.0.1';
+const port = 3000;
+
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+// Set the response header with a status code and content type
+res.statusCode = 200;
+res.setHeader('Content-Type', 'text/html');
+
+// Handle different routes
+if (req.url === '/') {
+res.end('<h1>Welcome to the Home Page!</h1>');
+} else if (req.url === '/about') {
+res.end('<h1>About Us</h1><p>This is a simple Node.js server.</p>');
+} else if (req.url === '/contact') {
+
+res.end('<h1>Contact Us</h1><p>You can contact us at
+example@domain.com.</p>');
+} else {
+res.statusCode = 404;
+res.end('<h1>404 Not Found</h1><p>The page you requested does not
+exist.</p>');
+}
+});
+
+// Start the server and listen for requests
+server.listen(port, hostname, () => {
+console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+Q.2) .js
+
+// Import required libraries
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const { check, validationResult } = require('express-validator');
+
+// Initialize the Express app
+const app = express();
+
+// Middleware to parse JSON and URL-encoded form data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Sample route to create a product (POST request)
+app.post('/product', [
+// Validation rules
+check('name').isLength({ min: 1 }).withMessage('Name is required'),
+check('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+check('category').isLength({ min: 1 }).withMessage('Category is required'),
+], (req, res) => {
+// Validate the incoming request data
+const errors = validationResult(req);
+
+if (!errors.isEmpty()) {
+// If there are validation errors, return a 400 response with errors
+return res.status(400).json({
+
+success: false,
+message: 'Validation failed',
+errors: errors.array(),
+});
+}
+
+// If validation passed, process the data (for simplicity, just echo the data)
+const { name, price, category } = req.body;
+return res.status(201).json({
+success: true,
+message: 'Product created successfully',
+data: {
+name,
+price,
+category,
+},
+});
+});
+
+// Sample route to get a product (GET request)
+app.get('/product/:id', (req, res) => {
+const { id } = req.params;
+
+if (!id) {
+return res.status(400).json({
+success: false,
+message: 'Product ID is required',
+});
+}
+
+// Simulate fetching a product (for example, from a database)
+const product = {
+id,
+name: 'Sample Product',
+price: 100,
+category: 'Electronics',
+};
+
+return res.status(200).json({
+success: true,
+message: 'Product fetched successfully',
+data: product,
+});
+});
+
+// Define a simple error handler for undefined routes
+app.use((req, res) => {
+return res.status(404).json({
+success: false,
+message: 'Route not found',
+});
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+console.log(`Server running at http://localhost:${PORT}`);
+});

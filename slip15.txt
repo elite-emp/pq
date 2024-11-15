@@ -1,0 +1,43 @@
+Slip 15 :
+
+Q.1) .js
+
+// Sample employee array
+const employees = [
+{ id: 1, name: 'Alice', position: 'Developer', salary: 20000 },
+{ id: 2, name: 'Bob', position: 'Designer', salary: 30000 },
+{ id: 3, name: 'Charlie', position: 'Manager', salary: 40000 },
+];
+
+// Find an employee with a salary greater than 25,000
+const highSalaryEmployee = employees.find(employee => employee.salary > 25000);
+
+if (highSalaryEmployee) {
+console.log('Employee with salary greater than 25000:', highSalaryEmployee);
+} else {
+
+console.log('No employee found with salary greater than 25000');
+}
+
+Q2  .ts
+
+let students = [
+    { id: "001", name: "Anish",Percentage: "40%" },
+    { id: "002", name: "Smriti", Percentage: "25%" },
+    { id: "003", name: "Rahul", Percentage: "85%" },
+    { id: "004", name: "Bakul", Percentage: "96%" },
+    { id: "005", name: "Nikita", Percentage: "90%" }
+]
+
+let basketballPlayers = students.filter(function (student) {
+    return student.Percentage === "85%";
+}).map(function (student) {
+    return student.name;
+})
+
+console.log("Basketball Players are:");
+
+// Printing out the name of Basketball players
+basketballPlayers.forEach(function (players) {
+    console.log(players);
+});

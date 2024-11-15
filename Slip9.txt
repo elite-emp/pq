@@ -1,0 +1,104 @@
+Slip 9
+:
+Q.1) .js
+// Sample array of companies with id and workforce properties
+const companies = [
+{ id: 1, name: "Company A", workforce: 25 },
+{ id: 2, name: "Company B", workforce: 40 },
+{ id: 3, name: "Company C", workforce: 50 },
+{ id: 4, name: "Company D", workforce: 15 }
+];
+
+// Function to find company with workforce greater than 30
+function findCompanyById(workforceThreshold) {
+// Using the find() method to search for a company by workforce
+const company = companies.find(company => company.workforce >
+workforceThreshold);
+
+return company;
+}
+
+// Find a company with workforce greater than 30
+const companyWithLargeWorkforce = findCompanyById(30);
+
+// Check the result
+if (companyWithLargeWorkforce) {
+console.log(`Company with workforce greater than 30:`);
+console.log(`ID: ${companyWithLargeWorkforce.id}`);
+console.log(`Name: ${companyWithLargeWorkforce.name}`);
+console.log(`Workforce: ${companyWithLargeWorkforce.workforce}`);
+} else {
+console.log('No company found with workforce greater than 30.');
+}
+
+Q.2) .js
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Middleware to parse incoming request bodies
+app.use(express.json()); // For parsing application/json
+
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-
+form-urlencoded
+
+// Sample middleware to validate input data
+const validateInput = (req, res, next) => {
+const { name, age } = req.body;
+if (!name || !age) {
+return res.status(400).json({
+success: false,
+message: "Name and age are required!"
+});
+}
+if (isNaN(age) || age < 18) {
+return res.status(400).json({
+success: false,
+message: "Age must be a number and at least 18!"
+});
+}
+// If validation passes, move to the next middleware or route handler
+next();
+};
+// POST route to create a new user (with validation)
+app.post('/create-user', validateInput, (req, res) => {
+const { name, age } = req.body;
+// Simulate saving the user data
+const user = {
+id: Math.floor(Math.random() * 1000),
+name,
+age
+};
+res.status(201).json({
+success: true,
+message: 'User created successfully',
+
+user
+});
+});
+// GET route to fetch user details (for demonstration)
+app.get('/user/:id', (req, res) => {
+const userId = req.params.id;
+// Simulate fetching a user (you could use a real database here)
+const user = {
+id: userId,
+name: "John Doe",
+age: 25
+};
+res.json({
+success: true,
+user
+});
+});
+// Default route for handling unknown requests
+app.use((req, res) => {
+res.status(404).json({
+success: false,
+message: "Route not found"
+});
+});
+// Start the server
+app.listen(port, () => {
+console.log(`Server is running on http://localhost:${port}`);
+});

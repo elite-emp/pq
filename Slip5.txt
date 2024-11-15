@@ -1,0 +1,42 @@
+Slip 5 :
+
+Q.1) .ts
+import { Component } from '@angular/core';
+
+@Component({
+
+selector: 'app-input-display',
+templateUrl: './input-display.component.html',
+styleUrls: ['./input-display.component.css']
+})
+export class InputDisplayComponent {
+// Define a property to hold the input data
+inputData: string = '';
+
+// Method to update the inputData (optional)
+updateData(value: string): void {
+this.inputData = value;
+}
+}
+
+Q.2) .js 
+
+// Import the http module to create an HTTP server
+const http = require('http');
+
+// Set the port for the server to listen on
+const port = 3000;
+
+// Create the server
+const server = http.createServer((req, res) => {
+// Set the response HTTP header to specify content type
+res.writeHead(200, {'Content-Type': 'text/plain'});
+
+// Send a response to the client
+res.end('Hello, this is a simple Node.js server!');
+});
+
+// Make the server listen on the specified port
+server.listen(port, () => {
+console.log(`Server is running at http://localhost:${port}`);
+});

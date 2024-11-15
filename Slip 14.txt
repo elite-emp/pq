@@ -1,0 +1,84 @@
+Slip 14
+Q1  .ts
+let students = [
+    { id: "001", name: "Anish",Percentage: "40%" },
+    { id: "002", name: "Smriti", Percentage: "25%" },
+    { id: "003", name: "Rahul", Percentage: "85%" },
+    { id: "004", name: "Bakul", Percentage: "96%" },
+    { id: "005", name: "Nikita", Percentage: "90%" }
+]
+
+let basketballPlayers = students.filter(function (student) {
+    return student.Percentage === "85%";
+}).map(function (student) {
+    return student.name;
+})
+
+console.log("Basketball Players are:");
+
+// Printing out the name of Basketball players
+basketballPlayers.forEach(function (players) {
+    console.log(players);
+});
+
+
+Q.2) .js
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3000;
+
+// Middleware to parse JSON request bodies
+app.use(bodyParser.json());
+
+// Mock database
+let employees = [];
+
+// Route to create a new employee
+app.post('/employees', (req, res) => {
+const { id, name, position, salary } = req.body;
+
+// Validate required fields
+if (!id || !name || !position || !salary) {
+return res.status(400).json({ error: 'All fields are required (id, name, position,
+salary)' });
+}
+
+// Check if employee with the same ID already exists
+const existingEmployee = employees.find(emp => emp.id === id);
+if (existingEmployee) {
+return res.status(409).json({ error: 'Employee with the same ID already exists' });
+}
+
+// Add new employee to the database
+const newEmployee = { id, name, position, salary };
+employees.push(newEmployee);
+res.status(201).json({ message: 'Employee created successfully', employee:
+newEmployee });
+});
+
+// Route to update an existing employee by ID
+app.put('/employees/:id', (req, res) => {
+const employeeId = req.params.id;
+const { name, position, salary } = req.body;
+
+// Find the employee by ID
+const employee = employees.find(emp => emp.id === employeeId);
+if (!employee) {
+return res.status(404).json({ error: 'Employee not found' });
+}
+
+// Update employee details
+if (name) employee.name = name;
+if (position) employee.position = position;
+if (salary) employee.salary = salary;
+
+res.json({ message: 'Employee updated successfully', employee });
+});
+
+// Start the server
+app.listen(PORT, () => {
+console.log(`Server is running on http://localhost:${PORT}`);
+
+});

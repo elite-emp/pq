@@ -1,0 +1,78 @@
+Slip 7 :
+
+Q.1) .js
+
+const fs = require('fs').promises; // Using fs.promises for promise-based file
+operations
+
+// Function to read a file asynchronously
+const readFile = async (fileName) => {
+try {
+const data = await fs.readFile(fileName, 'utf8'); // Read the file as a string
+console.log(`Data from ${fileName}:`);
+console.log(data);
+} catch (err) {
+console.error(`Error reading file ${fileName}:`, err);
+}
+};
+
+// Function to read multiple files asynchronously using async/await
+
+const readMultipleFiles = async () => {
+try {
+// Using Promise.all to read all files in parallel
+await Promise.all([
+readFile('file1.txt'),
+readFile('file2.txt'),
+readFile('file3.txt')
+]);
+console.log('All files read successfully.');
+} catch (err) {
+console.error('Error reading files:', err);
+}
+};
+
+// Call the function to read the files
+readMultipleFiles();
+
+Q.2) .js
+operations on a resource (User)
+const express = require('express');
+const app = express();
+const port = 3000;
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// In-memory data store (this could be replaced by a database)
+let users = [];
+// Route to Create a new user
+app.post('/users', (req, res) => {
+const { name, email } = req.body;
+// Basic validation
+if (!name || !email) {
+return res.status(400).json({ error: 'Name and email are required' });
+}
+// Create a new user
+const newUser = { id: users.length + 1, name, email };
+users.push(newUser);
+// Respond with the created user
+res.status(201).json(newUser);
+});
+// Route to Read (get all users)
+app.get('/users', (req, res) => {
+res.status(200).json(users);
+});
+// Route to Read (get a user by ID)
+app.get('/users/:id', (req, res) => {
+const userId = parseInt(req.params.id);
+const user = users.find(u => u.id === userId);
+if (!user) {
+return res.status(404).json({ error: 'User not found' });
+}
+res.status(200).json(user);
+});
+// Start the server
+app.listen(port, () => {
+console.log(`Server running at http://localhost:${port}`);
+
+});

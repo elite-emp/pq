@@ -1,0 +1,103 @@
+Slip 11 :
+
+Q.1) .js
+
+// Import required libraries
+const express = require('express');
+const bodyParser = require('body-parser');
+
+// Initialize the Express app
+const app = express();
+
+// Middleware to parse JSON data in request body
+app.use(bodyParser.json());
+
+// In-memory storage for movies (acting as a database)
+let movies = [];
+
+// Route to create a movie (POST request)
+app.post('/movie', (req, res) => {
+// Extract movie details from the request body
+const { title, director, releaseYear, genre } = req.body;
+
+// Validate required fields
+
+if (!title || !director || !releaseYear || !genre) {
+return res.status(400).json({
+success: false,
+message: 'All fields (title, director, releaseYear, genre) are required.'
+});
+}
+
+// Create a new movie object
+const newMovie = {
+id: movies.length + 1, // Generate a unique ID (just for demonstration)
+title,
+director,
+releaseYear,
+genre
+};
+
+// Save the new movie to the "database"
+movies.push(newMovie);
+
+// Send success response
+return res.status(201).json({
+success: true,
+
+message: 'Movie created successfully!',
+data: newMovie
+});
+});
+
+// Route to get all movies (GET request for testing)
+app.get('/movies', (req, res) => {
+return res.status(200).json({
+success: true,
+data: movies
+});
+});
+
+// Error handler for undefined routes
+app.use((req, res) => {
+return res.status(404).json({
+success: false,
+message: 'Route not found'
+});
+});
+
+// Start the server
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+console.log(`Server running at http://localhost:${PORT}`);
+});
+
+Q.2) .ts
+
+import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-student-list',
+templateUrl: './student-list.component.html',
+styleUrls: ['./student-list.component.css']
+})
+export class StudentListComponent {
+// Array of students with their names and the sports they play
+students = [
+{ name: 'Alice', sports: ['Basketball', 'Football'] },
+{ name: 'Bob', sports: ['Football', 'Cricket'] },
+{ name: 'Charlie', sports: ['Basketball', 'Tennis'] },
+
+{ name: 'David', sports: ['Cricket'] },
+{ name: 'Eva', sports: ['Basketball', 'Hockey'] }
+];
+
+// Method to get the names of students who play Basketball
+getBasketballPlayers() {
+return this.students
+.filter(student => student.sports.includes('Basketball')) // Filter students who play
+basketball
+.map(student => student.name); // Map the result to just the student names
+}
+}

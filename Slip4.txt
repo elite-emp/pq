@@ -1,0 +1,112 @@
+Slip 4 :
+Q.1) .html
+
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AngularJS ng-repeat Example</title>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-controller="BankController">
+<h2>Bank Details</h2>
+
+<!-- Table to display bank details using ng-repeat -->
+<table border="1">
+<thead>
+<tr>
+<th>Bank Name</th>
+<th>MICR Code</th>
+<th>IFSC Code</th>
+<th>Address</th>
+</tr>
+</thead>
+
+<tbody>
+<!-- Using ng-repeat to iterate over the 'banks' array -->
+<tr ng-repeat="bank in banks">
+<td>{{bank.name}}</td>
+<td>{{bank.micrCode}}</td>
+<td>{{bank.ifscCode}}</td>
+<td>{{bank.address}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<script>
+// Define AngularJS module and controller
+var app = angular.module('myApp', []);
+
+app.controller('BankController', function($scope) {
+// Data for banks
+$scope.banks = [
+{ name: 'ABC Bank', micrCode: '123456789', ifscCode: 'ABC123', address:
+
+'123 Main St, City A' },
+
+{ name: 'XYZ Bank', micrCode: '987654321', ifscCode: 'XYZ987', address:
+
+'456 Second St, City B' },
+
+{ name: 'LMN Bank', micrCode: '112233445', ifscCode: 'LMN456', address:
+
+'789 Third St, City C' },
+
+{ name: 'PQR Bank', micrCode: '998877665', ifscCode: 'PQR321', address:
+
+'101 First St, City D' }
+];
+});
+</script>
+
+</body>
+</html>
+
+Q.2) .js
+
+const express = require('express');
+const { body, validationResult } = require('express-validator');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+// Middleware to parse JSON and form data
+app.use(bodyParser.json()); // For JSON payloads
+
+app.use(bodyParser.urlencoded({ extended: true })); // For form data (x-www-form-
+urlencoded)
+
+// Route with input validation
+app.post('/submit', [
+// Validate and sanitize input data using express-validator
+
+body('name').isString().withMessage('Name must be a
+string').notEmpty().withMessage('Name is required'),
+body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
+body('age').isInt({ min: 18 }).withMessage('Age must be a number and at least 18'),
+], (req, res) => {
+// Check for validation errors
+const errors = validationResult(req);
+if (!errors.isEmpty()) {
+return res.status(400).json({ errors: errors.array() });
+}
+// If validation is successful, process the request data
+const { name, email, age } = req.body;
+res.status(200).json({
+message: 'Data received successfully',
+data: {
+name,
+email,
+age
+}
+});
+});
+// Start the server
+app.listen(port, () => {
+console.log(`Server is running at http://localhost:${port}`);
+});

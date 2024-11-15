@@ -1,0 +1,98 @@
+Slip 13:
+
+Q.1) .js
+// app.js
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+// Middleware to parse incoming request bodies
+app.use(bodyParser.json()); // For JSON data
+
+app.use(bodyParser.urlencoded({ extended: true })); // For form-data (application/x-
+www-form-urlencoded)
+
+// In-memory database to store users (For demo purposes)
+let users = [];
+
+// Middleware to validate input data
+function validateUserData(req, res, next) {
+const { name, email, age } = req.body;
+
+// Check if name, email, and age are provided
+if (!name || !email || !age) {
+return res.status(400).json({ message: "Name, email, and age are required." });
+}
+
+// Validate the format of email (basic check)
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+if (!emailRegex.test(email)) {
+return res.status(400).json({ message: "Invalid email format." });
+}
+
+// Check if age is a valid number
+if (isNaN(age)) {
+return res.status(400).json({ message: "Age must be a number." });
+}
+
+// Proceed to the next middleware/route handler if validation passes
+
+next();
+}
+
+// POST route to create a new user
+app.post('/users', validateUserData, (req, res) => {
+const { name, email, age } = req.body;
+
+// Create a new user object
+const newUser = {
+id: users.length + 1, // Auto-incremented ID
+name,
+email,
+age
+};
+
+// Add the new user to the users array
+users.push(newUser);
+
+// Send a success response back to the client
+res.status(201).json({
+message: "User created successfully",
+user: newUser
+
+});
+});
+
+// Route to get all users (optional, for testing purposes)
+app.get('/users', (req, res) => {
+res.status(200).json(users);
+});
+
+// Set the server to listen on port 3000
+app.listen(3000, () => {
+console.log('Server running on port 3000');
+});
+
+Q2 .ts
+
+// app.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  message = 'Dynamic message from parent component';
+}
+app.component.html
+<app-display [data]="message"></app-display>
+display.component.css
+.data-container {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
