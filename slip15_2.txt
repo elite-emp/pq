@@ -1,0 +1,66 @@
+Q.2) Create Angular application that print the name of students who got 85% using
+filter and map method
+
+Step 1: Set up the Angular component
+First, create an Angular component named StudentListComponent. This component
+will contain an array of student data and will display only those students who scored
+85% or above.
+bash
+Copy code
+ng generate component StudentList
+Step 2: Define Student Data and Filtering Logic
+In the student-list.component.ts file, define the student data array and
+use filter and map to get the names of students who scored 85% or more.
+typescript
+Copy code
+// student-list.component.ts
+import { Component } from '@angular/core';
+@Component({
+selector: 'app-student-list',
+templateUrl: './student-list.component.html',
+styleUrls: ['./student-list.component.css']
+})
+export class StudentListComponent {
+// Sample student data
+students = [
+{ id: 1, name: 'Alice', score: 90 },
+{ id: 2, name: 'Bob', score: 70 },
+{ id: 3, name: 'Charlie', score: 85 },
+{ id: 4, name: 'David', score: 88 }
+];
+// Filter and map to get the names of students who scored 85 or more
+topStudents = this.students
+
+.filter(student => student.score >= 85)
+.map(student => student.name);
+}
+Step 3: Display the Filtered Data in the Template
+In student-list.component.html, iterate over the topStudents array and display each
+name.
+html
+Copy code
+<!-- student-list.component.html -->
+<div>
+<h3>Students who scored 85% or higher:</h3>
+<ul>
+<li *ngFor="let studentName of topStudents">{{ studentName }}</li>
+</ul>
+</div>
+Explanation
+ filter: This method filters out students who have a score less than 85.
+ map: After filtering, map extracts only the name property of each student who
+passed the filter criteria.
+Step 4: Add the Component to the Main Application Template
+Include the app-student-list selector in your main app.component.html to display the
+component.
+html
+Copy code
+<!-- app.component.html -->
+<app-student-list></app-student-list>
+Expected Output
+The application will display the names of students who scored 85% or above:
+diff
+Copy code
+Students who scored 85% or higher:
+- Alice
+- Charlie
