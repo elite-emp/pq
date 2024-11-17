@@ -1,0 +1,91 @@
+Q.2) Create a simple Angular component that takes input data and displays it. [15]
+
+1. app.component.ts - The TypeScript file where we define the component's
+logic.
+2. app.component.html - The HTML file for the component's template.
+Step 1: Set up the Angular Component
+If you haven't already, create a new Angular component using the Angular CLI:
+bash
+Copy code
+ng generate component displayInput
+
+This command will create the component files needed, including display-
+input.component.ts and display-input.component.html.
+
+Step 2: Implement the Component
+1. display-input.component.ts (TypeScript Logic)
+Define the input property and the function to handle the display of input data.
+typescript
+Copy code
+// display-input.component.ts
+import { Component } from '@angular/core';
+@Component({
+selector: 'app-display-input',
+templateUrl: './display-input.component.html',
+styleUrls: ['./display-input.component.css']
+})
+export class DisplayInputComponent {
+userInput: string = ''; // Property to store user input
+displayText: string = ''; // Property to display the text
+// Function to update the display text
+updateDisplay() {
+this.displayText = this.userInput;
+}
+}
+2. display-input.component.html (HTML Template)
+Add an input field, a button, and an area to display the input text.
+html
+Copy code
+<!-- display-input.component.html -->
+<div style="text-align: center; margin-top: 20px;">
+<h2>Enter Some Text</h2>
+<input [(ngModel)]="userInput" placeholder="Type something..." />
+<button (click)="updateDisplay()">Display Text</button>
+<h3 *ngIf="displayText">You entered: {{ displayText }}</h3>
+</div>
+Step 3: Update App Module to Use ngModel
+To use [(ngModel)] in the component, ensure that FormsModule is imported in
+your app.module.ts:
+typescript
+Copy code
+
+// app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { AppComponent } from './app.component';
+
+import { DisplayInputComponent } from './display-input/display-
+input.component';
+
+@NgModule({
+declarations: [
+AppComponent,
+DisplayInputComponent
+],
+imports: [
+BrowserModule,
+FormsModule // Add FormsModule here
+],
+providers: [],
+bootstrap: [AppComponent]
+})
+export class AppModule { }
+Step 4: Add the Component to the App Template
+In app.component.html, add the <app-display-input> selector to display your new
+component.
+html
+Copy code
+<!-- app.component.html -->
+<app-display-input></app-display-input>
+How it Works
+1. The user types into the input field, which binds the text to
+the userInput property.
+2. When the user clicks the "Display Text" button, it triggers
+the updateDisplay() method, which sets displayText to the value of userInput.
+3. The text entered by the user is displayed below the input field in real-time.
+Run the Application
+Run the Angular application to see the component in action:
+bash
+Copy code
+ng serve
